@@ -8,7 +8,7 @@ export default defineNuxtPlugin(() => {
     })
     .catch((error) => {
       console.log(`liff.init() failed: ${error}`)
-      if (!process.env.liffId) {
+      if (!useRuntimeConfig().public.liffId) {
         console.info(
           'LIFF Starter: Please make sure that you provided `LIFF_ID` as an environmental variable.'
         )
