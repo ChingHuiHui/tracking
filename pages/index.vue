@@ -1,34 +1,42 @@
 <template>
-  <div
-    class="h-screen container mx-auto flex flex-col justify-center items-center"
-  >
+  <div class="container mx-auto flex flex-col items-center mt-20">
     <h1 class="text-5xl font-bold mb-4">Tracking</h1>
-    <ul>
-      <li>
-        Version：<span class="font-bold">{{ sdkVersion }}</span>
-      </li>
-      <li>
-        Error：<span :class="{ 'text-red-500': liffError }">{{
-          liffError || 'no any error'
-        }}</span>
-      </li>
-    </ul>
+    <p v-if="isLoading">Loading ... Plz wait ...</p>
+    <div v-else-if="info" class="space-y-4">
+      <div class="text-center">
+        <p class="mb-1">Your Name:</p>
+        <h2 class="text-3xl font-bold bg-slate-300 py-1">
+          {{ info.displayName }}
+        </h2>
+      </div>
+      <img :src="info.pictureUrl" class="w-52 h-52" />
+    </div>
+    <div v-else>No any data</div>
   </div>
 </template>
 
 <script setup lang="ts">
-const { $liffInit, $liff } = useNuxtApp()
+import type { Ref } from 'vue'
 
-const sdkVersion = ref('')
-const liffError = ref('')
+const { $liff } = useNuxtApp()
 
-onMounted(() => {
-  $liffInit
-    .then(() => {
-      sdkVersion.value = $liff.getVersion()
-    })
-    .catch((error) => {
-      liffError.value = error
-    })
+type Profile = {
+  displayName: string
+  pictureUrl: string
+}
+
+const info: Ref<Profile | null> = ref(null)
+const isLoading = ref(true)
+
+onMounted(async () => {
+  isLoading.value = true
+
+  info.value = await $fetch('https://api.chinghuihui.com/auth/me', {
+    headers: {
+      Authorization: `Bearer ${$liff.getAccessToken()}`,
+    },
+  })
+
+  isLoading.value = false
 })
 </script>
