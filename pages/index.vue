@@ -31,7 +31,8 @@ const isLoading = ref(true)
 onMounted(async () => {
   isLoading.value = true
 
-  info.value = await $fetch('https://api.chinghuihui.com/auth/me', {
+  const url = useRuntimeConfig().public.apiBaseUrl + '/auth/me'
+  info.value = await $fetch(url, {
     headers: {
       Authorization: `Bearer ${$liff.getAccessToken()}`,
     },
