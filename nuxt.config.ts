@@ -2,9 +2,9 @@
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
-      liffId: ''
-      apiBaseUrl: ''
-    }
+      liffId: '',
+      apiBaseUrl: '',
+    },
   },
   modules: ['@nuxtjs/tailwindcss'],
 })
