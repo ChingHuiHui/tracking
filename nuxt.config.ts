@@ -2,8 +2,8 @@
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
-      liffId: process.env.LIFF_ID,
-    },
+      liffId: ''
+    }
   },
   modules: ['@nuxtjs/tailwindcss'],
 })
